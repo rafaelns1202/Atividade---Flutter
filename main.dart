@@ -1,79 +1,113 @@
 import 'package:flutter/material.dart';
-import 'questao.dart';
-import 'resposta.dart';
 
 void main() {
-  runApp(AulaComponentes());
+  runApp(const MyApp());
 }
 
-class AulaComponentes extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Aula de Componentes'),
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  color: Colors.green,
+                  padding: const EdgeInsets.all(16.0),
+                  child: const PerfilAluno(
+                    image: 'lib/imagens/img1.png',
+                    name: 'Pedro',
+                    registration: '2',
+                    school: 'Escola1',
+                    year: '1',
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                Container(
+                  color: Colors.green,
+                  padding: const EdgeInsets.all(16.0),
+                  child: const PerfilAluno(
+                    image: 'lib/imagens/img2.png',
+                    name: 'Jão',
+                    registration: '1',
+                    school: 'Escola2',
+                    year: '2',
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                Container(
+                  color: Colors.green,
+                  padding: const EdgeInsets.all(16.0),
+                  child: const PerfilAluno(
+                    image: 'lib/imagens/img3.png',
+                    name: 'Otávio',
+                    registration: '3',
+                    school: 'Escola3',
+                    year: '3',
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        body: Questionario(),
       ),
     );
   }
 }
 
-class Questionario extends StatefulWidget {
-  @override
-  _QuestionarioState createState() => _QuestionarioState();
-}
+class PerfilAluno extends StatelessWidget {
+  final String image;
+  final String name;
+  final String registration;
+  final String school;
+  final String year;
 
-class _QuestionarioState extends State<Questionario> {
-  var perguntaAtual = 0;
-  var cor = Colors.white;
-
-  final List<Map<String, Object>> perguntas = [
-    {
-      "texto": "Qual a sua cor favorita?",
-      "respostas": ["Amarelo", "Preto", "Branco", "Azul", "Vermelho"]
-    },
-    {
-      "texto": "Qual é seu animal favorito?",
-      "respostas": ["Cachorro", "Gato", "Tartaruga", "Periquito"]
-    },
-    {
-      "texto": "Qual sua linguagem favorita?",
-      "respostas": ["Python", "Java", "JavaScript"]
-    },
-  ];
-
-  bool get temPergunta {
-    return perguntaAtual < perguntas.length;
-  }
-
-  void acao() {
-    setState(() {
-      perguntaAtual++;
-    });
-    print(perguntaAtual);
-  }
+  const PerfilAluno({
+    Key? key,
+    required this.image,
+    required this.name,
+    required this.registration,
+    required this.school,
+    required this.year,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> respostas = [];
-
-    if (temPergunta) {
-      for (var resposta in perguntas[perguntaAtual]['respostas'] as List<String>) {
-        respostas.add(
-          Resposta(resposta, acao),
-        );
-      }
-    }
-
-    return Column(
-      children: [
-        temPergunta
-            ? Questao(perguntas[perguntaAtual]['texto'].toString())
-            : Text("Terminou"),
-        ...respostas,
-      ],
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            backgroundImage: AssetImage(image),
+            radius: 80.0,
+          ),
+          const SizedBox(height: 16.0),
+          Text(
+            'Nome:' + name,
+            style: const TextStyle(fontSize: 18.0),
+          ),
+          const SizedBox(height: 8.0),
+          Text(
+            'Matrícula' + registration,
+            style: const TextStyle(fontSize: 16.0),
+          ),
+          const SizedBox(height: 8.0),
+          Text(
+            'Escola:' + school,
+            style: const TextStyle(fontSize: 16.0),
+          ),
+          const SizedBox(height: 8.0),
+          Text(
+            'Ano:' + year,
+            style: const TextStyle(fontSize: 16.0),
+          ),
+        ],
+      ),
     );
   }
 }
